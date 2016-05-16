@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/22 18:24:37 by pba               #+#    #+#             */
-/*   Updated: 2015/11/02 03:25:23 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/16 03:16:31 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,29 @@
 ** If we are in server home directory we write "/".
 */
 
-void			get_pwd(t_env *serv_env)
+static void			pwd_error(t_env *serv_env)
 {
-	char		buf[PATH_MAX + 1];
-	char		*pwd;
+	dup2(serv_env->cs, 2);
+	ft_putstr_red_fd("Sending did not work.", 2);
+	ft_putchar_fd('\n', 2);
+}
+
+void				get_pwd(t_env *serv_env)
+{
+	char			buf[PATH_MAX + 1];
+	char			*pwd;
 
 	pwd = ft_strdup(getcwd(buf, PATH_MAX));
-	if (ft_strcmp(pwd, serv_env->home) == 0)
-		ft_putendl("/");
+	if (ft_strequ(pwd, serv_env->home))
+	{
+		if (send(serv_env->cs, "/\n", 2, 0) == -1)
+			pwd_error(serv_env);
+	}
 	else
-		ft_putendl(pwd + serv_env->home_len);
+	{
+		pwd = pwd + serv_env->home_len;
+		if (send(serv_env->cs, pwd, sizeof(pwd), 0) == -1
+				|| send(serv_env->cs, "\n", 1, 0) == -1)
+			pwd_error(serv_env);
+	}
 }

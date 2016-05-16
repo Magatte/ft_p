@@ -6,7 +6,7 @@
 #    By: pba <pba@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 11:34:20 by pba               #+#    #+#              #
-#    Updated: 2016/05/07 00:12:35 by pba              ###   ########.fr        #
+#    Updated: 2016/05/15 23:50:21 by pba              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,12 @@ SRC_SERVER		= server.c \
 				  check_path.c \
 				  args.c \
 				  open_dir.c \
-				  ft_exec_cmd.c \
+				  exec_cmd.c \
 				  ft_builtins.c \
 				  ft_binary.c \
-				  path_binary.c
+				  path_binary.c \
+				  status.c \
+				  notify_send.c
 
 SRC_CLIENT		= client.c \
 				  create_client.c

@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/21 23:10:27 by pba               #+#    #+#             */
-/*   Updated: 2016/05/10 03:57:08 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/16 02:30:25 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 void			path_binary(t_env *serv_env)
 {
-	char		*tmp;
+	char		*cmd;
 	char		*binary;
 	int			i;
 
@@ -31,13 +31,17 @@ void			path_binary(t_env *serv_env)
 	i = 0;
 	while (serv_env->path[i])
 	{
-		tmp = ft_strjoin(ft_strjoin(serv_env->path[i], "/"), binary);
-		if ((!access(tmp, X_OK)) || (!access(binary, X_OK)))
+		cmd = ft_strjoin(ft_strjoin(serv_env->path[i], "/"), binary);
+		if ((!access(cmd, X_OK)) || (!access(binary, X_OK)))
 		{
-			execv(tmp, serv_env->cmd);
+			dup2(serv_env->cs, 1);
+			dup2(serv_env->cs, 2);
+			status(serv_env, serv_env->cs, 1);
+			execv(cmd, serv_env->cmd);
 			execv(binary, serv_env->cmd);
+			close(serv_env->cs);
 		}
 		i++;
-		free(tmp);
+		free(cmd);
 	}
 }

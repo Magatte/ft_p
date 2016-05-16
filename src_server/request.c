@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:48:57 by pba               #+#    #+#             */
-/*   Updated: 2016/05/10 04:00:11 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/12 18:30:57 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static int					new_client(t_env *serv_env, char *buf)
 		while ((r = recv(serv_env->cs, buf, sizeof(buf), 0)) > 0)
 		{
 			buf[r] = '\0';
-			ft_putstr("commande : ");
-			ft_putendl(buf);
 			parser(serv_env, buf);
 		}
 		close(serv_env->cs);

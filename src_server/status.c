@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/08/19 01:45:52 by pba               #+#    #+#             */
-/*   Updated: 2016/05/16 03:01:18 by pba              ###   ########.fr       */
+/*   Created: 2016/05/12 17:06:55 by pba               #+#    #+#             */
+/*   Updated: 2016/05/16 02:30:49 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-/*
-**
-*/
-
-static void				usage(char *str)
+void			status(t_env *serv_env, int fd, int mode)
 {
-	printf("Usage: %s <port>\n", str);
-	exit(-1);
-}
-
-int						main(int ac, char **av, char **env)
-{
-	int					port;
-	int					sock;
-	char				buf[1024];
-	t_env				*serv_env;
-
-	if (ac != 2)
-		usage(av[0]);
-	port = ft_atoi(av[1]);
-	sock = create_server(port);
-	serv_env = init_env(env);
-	request(serv_env, sock, buf);
-	close(sock);
-	return (0);
+	if (mode == 1)
+	{
+		ft_putstr_blue_fd("[SUCCESS] ", fd);
+		ft_putstr_blue_fd(serv_env->cmd[0], fd);
+		ft_putchar_fd('\n', fd);
+	}
+	if (mode == 2)
+	{
+		ft_putstr_red_fd("[FAILURE] ", fd);
+		ft_putstr_red_fd(serv_env->cmd[0], fd);
+		ft_putchar_fd('\n', serv_env->cs);
+	}
 }
