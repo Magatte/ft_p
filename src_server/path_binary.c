@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/21 23:10:27 by pba               #+#    #+#             */
-/*   Updated: 2016/05/16 02:30:25 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/22 12:16:11 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void			path_binary(t_env *serv_env)
 		{
 			dup2(serv_env->cs, 1);
 			dup2(serv_env->cs, 2);
-			status(serv_env, serv_env->cs, 1);
 			execv(cmd, serv_env->cmd);
 			execv(binary, serv_env->cmd);
 			close(serv_env->cs);

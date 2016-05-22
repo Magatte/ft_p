@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_binary.c                                        :+:      :+:    :+:   */
+/*   binary.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:14:45 by pba               #+#    #+#             */
-/*   Updated: 2016/05/16 02:29:43 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/22 12:14:50 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** until the child process exits.
 */
 
-int					ft_binary(t_env *serv_env)
+int					binary(t_env *serv_env)
 {
 	int				child_exit_status;
 	pid_t			pid;
@@ -33,6 +33,8 @@ int					ft_binary(t_env *serv_env)
 		ft_strcpy(serv_env->result.command, serv_env->cmd[0]);
 		if (serv_env->result.code_return == 256)
 			status(serv_env, serv_env->cs, 2);
+		else
+			status(serv_env, serv_env->cs, 1);
 		notify_send(serv_env->cs, &serv_env->result);
 	}
 	if (pid == 0)

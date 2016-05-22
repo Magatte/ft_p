@@ -6,7 +6,7 @@
 #    By: pba <pba@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 11:34:20 by pba               #+#    #+#              #
-#    Updated: 2016/05/15 23:50:21 by pba              ###   ########.fr        #
+#    Updated: 2016/05/22 12:13:35 by pba              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,19 +35,21 @@ SRC_SERVER		= server.c \
 				  args.c \
 				  open_dir.c \
 				  exec_cmd.c \
-				  ft_builtins.c \
-				  ft_binary.c \
+				  builtins.c \
+				  binary.c \
 				  path_binary.c \
+				  put_file_serv.c \
 				  status.c \
 				  notify_send.c
 
 SRC_CLIENT		= client.c \
-				  create_client.c
+				  create_client.c \
+				  put_file.c
 
 OBJ_SERVER		= $(SRC_SERVER:%.c=$(OPATH_SERVER)%.o)
 OBJ_CLIENT		= $(SRC_CLIENT:%.c=$(OPATH_CLIENT)%.o)
 
-INCLUDE			= $(wildcard ./includes/ft_p.h)
+INCLUDE			= ./includes/ft_p.h
 
 all: mkdir_obj server client
 

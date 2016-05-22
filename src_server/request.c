@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:48:57 by pba               #+#    #+#             */
-/*   Updated: 2016/05/12 18:30:57 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/18 02:02:33 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ static int					new_client(t_env *serv_env, char *buf)
 		wait(&child_exit_status);
 	if (pid == 0)
 	{
-		while ((r = recv(serv_env->cs, buf, sizeof(buf), 0)) > 0)
+		ft_memset((void *)buf, 0, PATH_MAX);
+		while ((r = recv(serv_env->cs, buf, PATH_MAX, 0)) > 0)
 		{
 			buf[r] = '\0';
 			parser(serv_env, buf);
+			ft_memset((void *)buf, 0, PATH_MAX);
 		}
 		close(serv_env->cs);
 		return (0);

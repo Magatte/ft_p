@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 10:00:55 by pba               #+#    #+#             */
-/*   Updated: 2016/05/16 03:41:23 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/21 20:12:53 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int			get_to_path(const char *path, char *buf, t_env *serv_env)
 	int		result;
 
 	result = chdir(path);
-	if (ft_strncmp(serv_env->home, getcwd(buf, PATH_MAX),
-			ft_strlen(serv_env->home)) == 0)
+	if (ft_strnequ(serv_env->home, getcwd(buf, PATH_MAX),
+			ft_strlen(serv_env->home)))
 	{
 		serv_env->old_pwd = serv_env->pwd;
 		serv_env->pwd = ft_strdup(getcwd(buf, PATH_MAX));
@@ -38,7 +38,6 @@ int			get_to_path(const char *path, char *buf, t_env *serv_env)
 	{
 		chdir(serv_env->pwd);
 		dup2(serv_env->cs, 2);
-		status(serv_env, serv_env->cs, 2);
 		ft_putendl_fd("You can't go below home directory.", 2);
 		result = -2;
 	}
@@ -52,13 +51,12 @@ int			open_dir(int args, t_env *serv_env)
 	if (args > 1)
 	{
 		dup2(serv_env->cs, 2);
-		status(serv_env, serv_env->cs, 2);
 		ft_putendl_fd("Too many arguments.", 2);
-		return (0);
+		return (-3);
 	}
 	else if (args == 0)
 		return (chdir(serv_env->home));
-	else if (ft_strequ(serv_env->cmd[1], "~"))
+	if (ft_strequ(serv_env->cmd[1], "~") || ft_strequ(serv_env->cmd[1], "/"))
 	{
 		serv_env->old_pwd = serv_env->pwd;
 		serv_env->pwd = ft_strdup(getcwd(buf, PATH_MAX));

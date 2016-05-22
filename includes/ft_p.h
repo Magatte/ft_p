@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/15 02:16:36 by pba               #+#    #+#             */
-/*   Updated: 2016/05/16 02:37:30 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/22 12:13:14 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <arpa/inet.h>
+# include <sys/stat.h>
 # include "libft.h"
+#define BUF_SIZE (0x400)
 #define CODESIZE (0xff)
 #define CODEITEM (-1)
 #define CODE_INIT(x, y, z) x = y; ft_bzero((void *)&y, z);
@@ -42,18 +44,25 @@ typedef struct		s_env
 	char			**cmd;
 	t_result		result;
 }					t_env;
+typedef struct		s_func
+{
+	char			*cmd;
+	void			(*func)(t_env *);
+}					t_func;
 void				parser(t_env *serv_env, char *line);
 t_env				*init_env(char **env);
 int					create_server(int port);
 int					create_client(char *addr, int port);
-void				get_pwd(t_env *serv_env);
+char				*get_pwd(t_env *serv_env);
 char				**get_path(char **env);
 int					check_path(char **env);
 void				request(t_env *serv_env, int sock, char *buf);
-int					ft_builtins(t_env *serv_env);
-int					ft_binary(t_env *serv_env);
+int					builtins(t_env *serv_env);
+int					binary(t_env *serv_env);
 void				path_binary(t_env *serv_env);
 int					open_dir(int args, t_env *serv_env);
+int					put_file(int sock, char **cmd);
+int					put_file_serv(t_env *serv);
 int					args(char **cmd);
 void				exec_cmd(char *line, t_env *serv_env);
 void				status(t_env *serv_env, int fd, int mode);
