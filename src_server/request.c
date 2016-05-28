@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:48:57 by pba               #+#    #+#             */
-/*   Updated: 2016/05/18 02:02:33 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/28 03:24:56 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 static int					new_client(t_env *serv_env, char *buf)
 {
 	int						r;
-	int						child_exit_status;
 	pid_t					pid;
 
 	pid = fork();
 	if (pid > 0)
-		wait(&child_exit_status);
+		wait4(0, NULL, WNOHANG, NULL);
 	if (pid == 0)
 	{
 		ft_memset((void *)buf, 0, PATH_MAX);
@@ -45,6 +44,9 @@ void						request(t_env *serv_env, int sock, char *buf)
 	while ((cs = accept(sock, (struct sockaddr*)&csin, &cslen)) != -1)
 	{
 		serv_env->cs = cs;
+		ft_putstr_blue_fd("Client [", 2);
+		ft_putnbr_fd(cs, 2);
+		ft_putstr_blue_fd("] connected\n", 2);
 		new_client(serv_env, buf);
 	}
 }

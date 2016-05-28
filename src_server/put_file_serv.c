@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 04:34:41 by pba               #+#    #+#             */
-/*   Updated: 2016/05/22 18:39:13 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/27 03:12:33 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,53 +29,69 @@ int					create_file(char *file_name)
 	return (fd);
 }
 
-static void			read_until_notify(int socket_read, int socket_write)
+void					write_progress(t_env *serv_env, int r)
 {
-	char			code[CODESIZE];
-	char			*p;
-	char			c;
-	
-	CODE_INIT(p, code, CODESIZE);
-	while (read(socket_read, &c, 1) > 0)
+	int					percent;
+	int					i;
+	int					n;
+	static int			sum = 0;
+
+	dup2(serv_env->cs, 2);
+	sum += r; 
+	percent = sum / serv_env->transf.size * 100;
+	i = 0;
+	while (i <= percent)
 	{
-		if (c == CODEITEM)
+		n = 0;
+		ft_putchar_fd('\r', 2);
+		while (n++ < i)
 		{
-			*p++ = c;
-			if ((p - code) == CODESIZE)
-				break;
+			if (i > 99)
+				ft_putstr_fd("\e[102m ", 2);
+			else
+				ft_putstr_fd("\e[101m ", 2);
 		}
-		else
-		{
-			write(socket_write, code, p - code);
-			CODE_INIT(p, code, CODESIZE);
-			write(socket_write, &c, 1);
-		}
+		ft_putstr_fd("\e[49m", 2);
+		ft_putnbr_fd(i, 2);
+		ft_putstr_fd("%", 2);
+		++i;
 	}
+}
+
+static void			write_file(t_env *serv_env, int fd)
+{
+	int				n;
+	int				r;
+	int				buf[USHRT_MAX + 1];
+
+	n = serv_env->transf.size / USHRT_MAX + 1;
+	while (n--)
+	{
+		ft_memset((void *)buf, 0, USHRT_MAX);
+		r = recv(serv_env->cs, buf, USHRT_MAX, 0);
+		write_progress(serv_env, r);
+		write(fd, buf, r);
+	}
+	dup2(serv_env->cs, 2);
+	ft_putchar_fd('\n', 2);
 }
 
 int					put_file_serv(t_env *serv_env)
 {
 	int				fd;
-	char			buf[USHRT_MAX];
-	int				r;
 
-	ft_memset((void *)buf, 0, USHRT_MAX);
-	while ((r = recv(serv_env->cs, buf, 13, 0)))
+	read(serv_env->cs, &serv_env->transf, sizeof(serv_env->transf)); 
+	if (!ft_strequ(serv_env->transf.msg, "[put_file_OK]"))
 	{
-		if (ft_strequ(buf, "[put_file_ER]"))
-		{
-			ft_putstr_red_fd("[put_file_ERROR]", 2);
-			ft_putchar_fd('\n', 2);
-			return (0);
-		}
-		else if (ft_strequ(buf, "[put_file_OK]"))
-			break ;
-	}
-	ft_putstr_blue_fd(buf, 2);
-	ft_putchar_fd('\n', 2);
-	if (!(fd = create_file(serv_env->cmd[1])))
+		ft_putstr_red_fd("[put_file_ERROR]", 2);
+		ft_putchar_fd('\n', 2);
 		return (0);
-	read_until_notify(serv_env->cs, fd);
+	}
+	ft_putstr_blue_fd(serv_env->transf.msg, 2);
+	ft_putchar_fd('\n', 2);
+	if (!(fd = create_file(serv_env->transf.f_name)))
+		return (0);
+	write_file(serv_env, fd);
 	close(fd);
 	return(1);
 }

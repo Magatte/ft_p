@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:04:35 by pba               #+#    #+#             */
-/*   Updated: 2016/05/22 12:22:18 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/27 08:38:53 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 ** In ft_builtins() fonction, we check if the written command is builtin
 ** (Here "cd", or "pwd")
 */
+
+static void			handle_quit(t_env *serv_env)
+{
+	ft_putstr_red_fd("client [", 2);
+	ft_putnbr_fd(serv_env->cs, 2);
+	ft_putstr_red_fd("] disconnected\n", 2);
+	serv_env->result.code_return = -2;
+	notify_send(serv_env->cs, &serv_env->result);
+	exit(1);
+}
 
 static void			handle_cd(t_env *serv_env)
 {
@@ -57,7 +67,9 @@ static const t_func g_func[] =
 {
 	{"cd", &handle_cd},
 	{"pwd", &handle_pwd},
-	{"put_file_", &handle_put},
+	{"put", &handle_put},
+	/*{"get", &handle_get}*/
+	{"quit", &handle_quit},
 	{0, 0}
 };
 

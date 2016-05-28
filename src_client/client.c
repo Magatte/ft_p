@@ -6,11 +6,13 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/22 00:07:43 by pba               #+#    #+#             */
-/*   Updated: 2016/05/21 23:54:23 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/28 14:39:39 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+int						g_sock;
 
 static void				usage(char *str)
 {
@@ -52,8 +54,17 @@ static t_result			*read_until_notif(int socket_read, int socket_write)
 			write(socket_write, &c, 1);
 		}
 	}
-	read(socket_read, &result, sizeof(result));
+	read(socket_read, &result, sizeof(t_result));
 	return (&result);
+}
+
+static void				quit_if_off(t_result *result)
+{
+	if (result->code_return == -2)
+	{
+		ft_putstr_red_fd("ftp : connection off\n", 2);
+		exit(1);
+	}
 }
 
 int						main(int ac, char **av)
@@ -68,14 +79,18 @@ int						main(int ac, char **av)
 		usage(av[0]);
 	port = ft_atoi(av[2]);
 	sock = create_client(av[1], port);
+	ftp_signal();
 	while ((line = ft_prompt()) != NULL)
 	{
-		if (send(sock, line, ft_strlen(line), 0) == -1)
-			break;
-		cmd = ft_strsplit(line, ' ');
-		if (cmd && ft_strequ(cmd[0], "put_file_"))
-			put_file(sock, cmd);
-		result = read_until_notif(sock, 1);
+		if (!ft_strequ(line, ""))
+		{
+			if (send(sock, line, ft_strlen(line), 0) == -1)
+				break;
+			cmd = ft_strsplit(line, ' ');
+			if (cmd && ft_strequ(cmd[0], "put"))
+				put_file(sock, cmd);
+			quit_if_off((result = read_until_notif(sock, 1)));
+		}
 	}
 	close(sock);
 	return (0);

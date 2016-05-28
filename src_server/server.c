@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/08/19 01:45:52 by pba               #+#    #+#             */
-/*   Updated: 2016/05/18 00:27:08 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/28 08:49:39 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /*
 **
 */
+
+t_env					*g_env;
 
 static void				usage(char *str)
 {
@@ -33,7 +35,15 @@ int						main(int ac, char **av, char **env)
 		usage(av[0]);
 	port = ft_atoi(av[1]);
 	sock = create_server(port);
-	serv_env = init_env(env);
+	if ((serv_env = init_env(env)) == NULL)
+	{
+		ft_putstr_fd("error : attempt to connect the server failed.", 2);
+		return (0);
+	}
+	ftp_signal();
+	ftp_ping();
+	g_env = serv_env;
+	ft_putstr_green_fd("Server connected\n", 2);
 	request(serv_env, sock, buf);
 	close(sock);
 	return (0);

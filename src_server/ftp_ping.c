@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   notify_send.c                                      :+:      :+:    :+:   */
+/*   ftp_ping.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/15 23:46:37 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 03:15:51 by pba              ###   ########.fr       */
+/*   Created: 2016/05/27 00:33:31 by pba               #+#    #+#             */
+/*   Updated: 2016/05/28 08:44:06 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-void	notify_send(int socket, t_result *result)
+void					ftp_ping()
 {
-	unsigned char	c;
-	size_t			n;
+	struct itimerval	it_val;
 
-	n = CODESIZE;
-	c = CODEITEM;
-	while (n--)
-		write(socket, &c, 1);
-	write(socket, result, sizeof(t_result));
+	it_val.it_value.tv_sec = INTERVAL / 100;
+	it_val.it_value.tv_usec = (INTERVAL * 100) % 100000;
+	it_val.it_interval = it_val.it_value;
+	if (setitimer(ITIMER_REAL, &it_val, NULL) == -1)
+	{
+		perror("error calling setitimer()");
+		exit(1);
+	}
 }

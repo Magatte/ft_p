@@ -6,7 +6,7 @@
 #    By: pba <pba@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 11:34:20 by pba               #+#    #+#              #
-#    Updated: 2016/05/22 12:13:35 by pba              ###   ########.fr        #
+#    Updated: 2016/05/28 08:49:05 by pba              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 .SUFFIXES:
 
 CFLAGS			= -Wall -Werror -Wextra
-SERVER			= server
+SERVER			= serveur
 CLIENT			= client
 HPATH_FTP		= includes/
 HPATH_LIBFT 	= libft/includes/
@@ -25,6 +25,8 @@ OPATH_SERVER	= obj_server/
 OPATH_CLIENT	= obj_client/
 
 SRC_SERVER		= server.c \
+				  signal.c \
+				  ftp_ping.c \
 				  parser.c \
 				  init_env.c \
 				  create_server.c \
@@ -43,6 +45,8 @@ SRC_SERVER		= server.c \
 				  notify_send.c
 
 SRC_CLIENT		= client.c \
+				  signal.c \
+				  ftp_ping.c \
 				  create_client.c \
 				  put_file.c
 
@@ -51,7 +55,7 @@ OBJ_CLIENT		= $(SRC_CLIENT:%.c=$(OPATH_CLIENT)%.o)
 
 INCLUDE			= ./includes/ft_p.h
 
-all: mkdir_obj server client
+all: mkdir_obj serveur client
 
 $(SERVER): $(OBJ_SERVER)
 	@echo "\033[32;01mserver object files created.\033[0m"

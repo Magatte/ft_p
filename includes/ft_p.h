@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/15 02:16:36 by pba               #+#    #+#             */
-/*   Updated: 2016/05/22 12:13:14 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/28 08:51:54 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,27 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <sys/stat.h>
+# include <sys/time.h>
 # include "libft.h"
-#define BUF_SIZE (0x400)
-#define CODESIZE (0xff)
-#define CODEITEM (-1)
-#define CODE_INIT(x, y, z) x = y; ft_bzero((void *)&y, z);
+# define BUF_SIZE (0x400)
+# define CODESIZE (0xff)
+# define CODEITEM (-1)
+# define CODE_INIT(x, y, z) x = y; ft_bzero((void *)&y, z);
+# define INTERVAL (500)
 
 typedef struct		s_result
 {
 	int				code_return;
+	int				client;
 	char			command[256];
 }					t_result;
+typedef struct		s_transfer
+{
+	int				transfer;
+	int				size;
+	char			f_name[256];
+	char			msg[14];
+}					t_transfer;
 typedef struct		s_env
 {
 	int				cs;
@@ -43,13 +53,18 @@ typedef struct		s_env
 	char			**path;
 	char			**cmd;
 	t_result		result;
+	t_transfer		transf;
 }					t_env;
 typedef struct		s_func
 {
 	char			*cmd;
 	void			(*func)(t_env *);
 }					t_func;
+extern t_env		*g_env;
+extern int			g_sock;
 void				parser(t_env *serv_env, char *line);
+void				ftp_signal();
+void				ftp_ping(void);
 t_env				*init_env(char **env);
 int					create_server(int port);
 int					create_client(char *addr, int port);
