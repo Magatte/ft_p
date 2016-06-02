@@ -1,0 +1,3 @@
+put ou get de fichier vide
+processus zombie : quand on quitte le client avec ^C je dois catcher
+le signal de l'autre cote et exit.
