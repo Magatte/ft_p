@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/22 00:07:43 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 14:39:39 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/01 23:05:57 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,15 @@ static void				usage(char *str)
 static char 			*ft_prompt(void)
 {
 	char 				*line;
+	char				*tmp;
 
 	ft_putstr_green_fd("ft_p> ", 0);
 	if (get_next_line(0, &line) <= 0)
 		line = NULL;
+	tmp = line;
+	line = ft_strjoin(line, "$");
+	free(tmp);
 	return (line);
-}
-
-static t_result			*read_until_notif(int socket_read, int socket_write)
-{
-	char				code[CODESIZE];
-	static t_result		result;
-	char 				*p;
-	char				c;
-
-	CODE_INIT(p, code, CODESIZE);
-	ft_bzero((void *)&result, sizeof(result));
-	while (read(socket_read, &c, 1) > 0)
-	{
-		if (c == CODEITEM)
-		{
-			*p++ = c;
-			if ((p - code) == CODESIZE)
-				break ;
-		}
-		else
-		{
-			write(socket_write, code, p - code);
-			CODE_INIT(p, code, CODESIZE);
-			write(socket_write, &c, 1);
-		}
-	}
-	read(socket_read, &result, sizeof(t_result));
-	return (&result);
 }
 
 static void				quit_if_off(t_result *result)
@@ -67,9 +43,28 @@ static void				quit_if_off(t_result *result)
 	}
 }
 
-int						main(int ac, char **av)
+static void				client(int sock, char *line, char **cmd)
 {
 	t_result			*result;
+
+	while ((line = ft_prompt()) != NULL)
+	{
+		if (!ft_strequ(line, "$"))
+		{
+			if (send(sock, line, ft_strlen(line), 0) == -1)
+				break ;
+			cmd = ft_strsplit(line, ' ');
+			if (cmd && ft_strequ(cmd[0], "put"))
+				put_file(sock, cmd);
+			else if (cmd && ft_strequ(cmd[0], "get"))
+				get_file(sock, cmd);
+			quit_if_off((result = read_until_notif(sock, 1)));
+		}
+	}
+}
+
+int						main(int ac, char **av)
+{
 	int					port;
 	int					sock;
 	char				*line;
@@ -80,18 +75,9 @@ int						main(int ac, char **av)
 	port = ft_atoi(av[2]);
 	sock = create_client(av[1], port);
 	ftp_signal();
-	while ((line = ft_prompt()) != NULL)
-	{
-		if (!ft_strequ(line, ""))
-		{
-			if (send(sock, line, ft_strlen(line), 0) == -1)
-				break;
-			cmd = ft_strsplit(line, ' ');
-			if (cmd && ft_strequ(cmd[0], "put"))
-				put_file(sock, cmd);
-			quit_if_off((result = read_until_notif(sock, 1)));
-		}
-	}
+	line = NULL;
+	cmd = NULL;
+	client(sock, line, cmd);
 	close(sock);
 	return (0);
 }

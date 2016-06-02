@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:56:22 by pba               #+#    #+#             */
-/*   Updated: 2016/05/27 03:55:13 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/30 20:30:22 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ t_env					*init_env(char **env)
 	serv_env->old_pwd = serv_env->home;
 	serv_env->path = NULL;
 	serv_env->cmd = NULL;
+	ft_memset((void*)&serv_env->result, 0, sizeof(t_result));
 	return (serv_env);
 }

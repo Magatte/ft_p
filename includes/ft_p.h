@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/15 02:16:36 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 08:51:54 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/01 22:57:52 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "libft.h"
 # define BUF_SIZE (0x400)
 # define CODESIZE (0xff)
-# define CODEITEM (-1)
+# define CODEITEM (0)
 # define CODE_INIT(x, y, z) x = y; ft_bzero((void *)&y, z);
 # define INTERVAL (500)
 
@@ -76,8 +76,14 @@ int					builtins(t_env *serv_env);
 int					binary(t_env *serv_env);
 void				path_binary(t_env *serv_env);
 int					open_dir(int args, t_env *serv_env);
+int					init_transfer(t_transfer *transf, int sock,
+						char **cmd, int *fd);
+int					create_file(char *file_name);
+t_result			*read_until_notif(int socket_read, int socket_write);
 int					put_file(int sock, char **cmd);
 int					put_file_serv(t_env *serv);
+int					get_file(int sock, char **cmd);
+int					get_file_serv(t_env *serv);
 int					args(char **cmd);
 void				exec_cmd(char *line, t_env *serv_env);
 void				status(t_env *serv_env, int fd, int mode);

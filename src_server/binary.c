@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:14:45 by pba               #+#    #+#             */
-/*   Updated: 2016/05/22 12:14:50 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/30 17:21:49 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int					binary(t_env *serv_env)
 	{
 		wait4(pid, &child_exit_status, 0, NULL);
 		serv_env->result.code_return = child_exit_status;
-		ft_strcpy(serv_env->result.command, serv_env->cmd[0]);
 		if (serv_env->result.code_return == 256)
 			status(serv_env, serv_env->cs, 2);
 		else
@@ -40,6 +39,7 @@ int					binary(t_env *serv_env)
 	if (pid == 0)
 	{
 		path_binary(serv_env);
+		ft_strcpy(serv_env->result.command, serv_env->cmd[0]);
 		exit(1);
 	}
 	return (serv_env->result.code_return);

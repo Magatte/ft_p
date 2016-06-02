@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/25 15:31:03 by pba               #+#    #+#             */
-/*   Updated: 2016/05/22 12:21:18 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/31 05:50:38 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 void			exec_cmd(char *line, t_env *serv_env)
 {
-	serv_env->cmd = NULL;
 	serv_env->cmd = ft_strsplit(line, ' ');
 	if ((builtins(serv_env) == 1))
 		return ;

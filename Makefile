@@ -6,7 +6,7 @@
 #    By: pba <pba@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 11:34:20 by pba               #+#    #+#              #
-#    Updated: 2016/05/28 08:49:05 by pba              ###   ########.fr        #
+#    Updated: 2016/06/01 22:56:31 by pba              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,10 @@ SRC_SERVER		= server.c \
 				  builtins.c \
 				  binary.c \
 				  path_binary.c \
+				  create_file.c \
+				  init_transfer.c \
 				  put_file_serv.c \
+				  get_file_serv.c \
 				  status.c \
 				  notify_send.c
 
@@ -48,7 +51,11 @@ SRC_CLIENT		= client.c \
 				  signal.c \
 				  ftp_ping.c \
 				  create_client.c \
-				  put_file.c
+				  create_file.c \
+				  init_transfer.c \
+				  read_until_notif.c \
+				  put_file.c \
+				  get_file.c
 
 OBJ_SERVER		= $(SRC_SERVER:%.c=$(OPATH_SERVER)%.o)
 OBJ_CLIENT		= $(SRC_CLIENT:%.c=$(OPATH_CLIENT)%.o)

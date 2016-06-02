@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:48:57 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 03:24:56 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/31 04:57:06 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static int					new_client(t_env *serv_env, char *buf)
 		ft_memset((void *)buf, 0, PATH_MAX);
 		while ((r = recv(serv_env->cs, buf, PATH_MAX, 0)) > 0)
 		{
-			buf[r] = '\0';
+			if (buf[r - 1] == '$')
+				serv_env->result.client = 1;
+			buf[r - serv_env->result.client] = '\0';
 			parser(serv_env, buf);
 			ft_memset((void *)buf, 0, PATH_MAX);
 		}
@@ -44,9 +46,9 @@ void						request(t_env *serv_env, int sock, char *buf)
 	while ((cs = accept(sock, (struct sockaddr*)&csin, &cslen)) != -1)
 	{
 		serv_env->cs = cs;
-		ft_putstr_blue_fd("Client [", 2);
-		ft_putnbr_fd(cs, 2);
-		ft_putstr_blue_fd("] connected\n", 2);
+		ft_putstr_blue_fd("Client [", 1);
+		ft_putnbr_fd(cs, 1);
+		ft_putstr_blue_fd("] connected\n", 1);
 		new_client(serv_env, buf);
 	}
 }

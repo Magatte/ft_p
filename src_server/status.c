@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/12 17:06:55 by pba               #+#    #+#             */
-/*   Updated: 2016/05/21 19:24:31 by pba              ###   ########.fr       */
+/*   Updated: 2016/05/30 17:14:58 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void			status(t_env *serv_env, int fd, int mode)
 	{
 		ft_putstr_red_fd("[ERROR] ", fd);
 		ft_putstr_red_fd(serv_env->cmd[0], fd);
-		ft_putchar_fd('\n', serv_env->cs);
+		ft_putchar_fd('\n', fd);
 	}
 }

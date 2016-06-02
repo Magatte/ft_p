@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   notify_send.c                                      :+:      :+:    :+:   */
+/*   create_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/15 23:46:37 by pba               #+#    #+#             */
-/*   Updated: 2016/05/31 05:44:38 by pba              ###   ########.fr       */
+/*   Created: 2016/05/31 04:39:22 by pba               #+#    #+#             */
+/*   Updated: 2016/05/31 05:44:50 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-void	notify_send(int socket, t_result *result)
+int					create_file(char *file_name)
 {
-	unsigned char	c;
-	size_t			n;
+	int				fd;
 
-	n = CODESIZE;
-	c = CODEITEM;
-	while (n--)
-		write(socket, &c, 1);
-	if (result->client == 1)
-		send(socket, result, sizeof(t_result), 0);
+	if ((fd = open(file_name, O_RDWR | O_APPEND | O_CREAT,
+					S_IRUSR | S_IWUSR)) == -1)
+	{
+		perror("Error: ");
+		return (0);
+	}
+	return (fd);
 }
