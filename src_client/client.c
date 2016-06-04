@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/22 00:07:43 by pba               #+#    #+#             */
-/*   Updated: 2016/06/01 23:05:57 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 04:15:18 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ static void				client(int sock, char *line, char **cmd)
 				get_file(sock, cmd);
 			quit_if_off((result = read_until_notif(sock, 1)));
 		}
+		free(line);
 	}
 }
 
 int						main(int ac, char **av)
 {
-	int					port;
 	int					sock;
 	char				*line;
 	char				**cmd;
 
 	if (ac != 3)
 		usage(av[0]);
-	port = ft_atoi(av[2]);
-	sock = create_client(av[1], port);
+	if ((sock = create_client(av[1], av[2])) == -1)
+		exit (-1);
 	ftp_signal();
 	line = NULL;
 	cmd = NULL;

@@ -6,11 +6,20 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 01:16:49 by pba               #+#    #+#             */
-/*   Updated: 2016/06/01 22:40:45 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 03:30:28 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+static void				progress_empty(void)
+{
+	int					i;
+
+	i = 0;
+	while (i++ < 100)
+		ft_putstr_fd("\e[102m ", 1);
+}
 
 static void				write_progress(int r, int size)
 {
@@ -18,6 +27,8 @@ static void				write_progress(int r, int size)
 	unsigned int		i;
 	static int			getsum = 0;
 
+	if (size == 0)
+		return ;
 	getsum += r;
 	percent = getsum * 100; 
 	percent /= size;
@@ -45,6 +56,8 @@ static int				read_until_max(int sock, int *buf, int size)
 	{
 		len = (r == 0) ? 0 : r - 1;
 		r += recv(sock, &buf[len], size - r, 0);
+		if (r == 0)
+			break ;
 	}
 	return (r);
 }
@@ -71,6 +84,8 @@ static void				write_file(int sock, int fd, int size)
 		write_progress(r, size);
 		write(fd, buf, r);
 	}
+	if (size == 0)
+		progress_empty();
 	ft_putstr_fd("\e[49m", 1);
 	ft_putnbr_fd(100, 1);
 	ft_putstr_fd("%\n", 1);
@@ -82,6 +97,8 @@ int						get_file(int sock, char **cmd)
 	int					len;
 	t_transfer			transf;
 
+	if (cmd[1] == NULL || ft_strequ(cmd[1], "$"))
+		return (0);
 	len = ft_strlen(cmd[1]);
 	cmd[1][len -1] = '\0';
 	if (recv(sock, &transf, sizeof(t_transfer), 0) == -1)

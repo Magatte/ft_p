@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/08/19 01:45:52 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 08:49:39 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/03 23:44:37 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ static void				usage(char *str)
 
 int						main(int ac, char **av, char **env)
 {
-	int					port;
 	int					sock;
 	char				buf[PATH_MAX];
 	t_env				*serv_env;
 
 	if (ac != 2)
 		usage(av[0]);
-	port = ft_atoi(av[1]);
-	sock = create_server(port);
+	if ((sock = create_server(av[1])) == -1)
+		exit (-1);
 	if ((serv_env = init_env(env)) == NULL)
 	{
 		ft_putstr_fd("error : attempt to connect the server failed.", 2);

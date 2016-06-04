@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:04:35 by pba               #+#    #+#             */
-/*   Updated: 2016/05/31 05:03:16 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 03:23:08 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ static void			handle_pwd(t_env *serv_env)
 
 static void			handle_put(t_env *serv_env)
 {
-	if (serv_env->cmd[1] == NULL)
-		return ;
-	if (put_file_serv(serv_env) == 0)
+	if (!serv_env->cmd[1] || put_file_serv(serv_env) == 0)
 	{
 		serv_env->result.code_return = -1;
 		return ;
@@ -70,9 +68,7 @@ static void			handle_put(t_env *serv_env)
 
 static void			handle_get(t_env *serv_env)
 {
-	if (serv_env->cmd[1] == NULL)
-		return ;
-	if (get_file_serv(serv_env) == 0)
+	if (!serv_env->cmd[1] || get_file_serv(serv_env) == 0)
 	{
 		serv_env->result.code_return = -1;
 		return ;

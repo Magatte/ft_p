@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 10:00:55 by pba               #+#    #+#             */
-/*   Updated: 2016/05/21 20:12:53 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 04:26:06 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int			get_to_path(const char *path, char *buf, t_env *serv_env)
 	else
 	{
 		chdir(serv_env->pwd);
-		dup2(serv_env->cs, 2);
-		ft_putendl_fd("You can't go below home directory.", 2);
+		ft_putendl_fd("You can't go below home directory.", serv_env->cs);
 		result = -2;
 	}
 	return (result);
@@ -50,8 +49,7 @@ int			open_dir(int args, t_env *serv_env)
 
 	if (args > 1)
 	{
-		dup2(serv_env->cs, 2);
-		ft_putendl_fd("Too many arguments.", 2);
+		ft_putendl_fd("Too many arguments.", serv_env->cs);
 		return (-3);
 	}
 	else if (args == 0)
