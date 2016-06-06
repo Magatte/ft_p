@@ -6,11 +6,15 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/12 17:06:55 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 02:36:13 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 04:22:56 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** this function tells if the executed command succeeded or not.
+*/
 
 void			status(t_env *serv_env, int fd, int mode)
 {

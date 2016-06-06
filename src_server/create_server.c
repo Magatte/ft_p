@@ -6,7 +6,7 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 14:08:18 by pba               #+#    #+#             */
-/*   Updated: 2016/06/03 23:55:19 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 11:40:25 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,15 @@
 ** Steps to create a server :
 ** 1- we use getaddrinfo to fill in hints the specification of our socket.
 ** 2- with the info of hints getaddrinfo fill in the res structure.
-** getaddrinfo() allocates and initialize t_addrinfo linked list
-** 3- we loop IN &res, bind (to an internet address) and listen in each.
-** listen is a syscall that sets the number of clients a server can 
+** getaddrinfo() allocates and initializes t_addrinfo linked list
+** 3- we loop in &res, bind (to an internet address) and listen in each.
+** listen is a syscall that sets the number of clients a server can
 ** simultaneously handle (the size of the queue).
+** specifications :
+** AI_PASSIVE + node == NULL => an address that binds
+** an connection accepting socket
+** AF_INET6 => getaddrinfo() IPV6 family address
+** SOCK_STREAM => stream socket != SOCK_DGRAM
 */
 
 static int				loop_server(t_addrinfo *res)
@@ -63,7 +68,7 @@ int						create_server(char *port)
 	hints.ai_family = AF_INET6;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = proto->p_proto;
-	if (getaddrinfo(NULL, port, &hints, &res) != 0) 
+	if (getaddrinfo(NULL, port, &hints, &res) != 0)
 		return (-1);
 	sock = loop_server(res);
 	if (sock != -1)

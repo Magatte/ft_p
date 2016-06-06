@@ -6,7 +6,7 @@
 #    By: pba <pba@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/09 11:34:20 by pba               #+#    #+#              #
-#    Updated: 2016/06/01 22:56:31 by pba              ###   ########.fr        #
+#    Updated: 2016/06/05 07:12:40 by pba              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC_SERVER		= server.c \
 				  open_dir.c \
 				  exec_cmd.c \
 				  builtins.c \
+				  builtin_cmd.c \
 				  binary.c \
 				  path_binary.c \
 				  create_file.c \

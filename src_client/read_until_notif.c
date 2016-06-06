@@ -6,17 +6,24 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/01 22:54:19 by pba               #+#    #+#             */
-/*   Updated: 2016/06/01 22:58:03 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 07:01:58 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
+/*
+** when I don't know the size of i have to read from the socket
+** (for instance when execve is called) I wait for a code sent by the server
+** that tells me I can stop reading from the socket.
+** the code = 256 x 0
+*/
+
 t_result				*read_until_notif(int socket_read, int socket_write)
 {
 	char				code[CODESIZE];
 	static t_result		result;
-	char 				*p;
+	char				*p;
 	char				c;
 
 	CODE_INIT(p, code, CODESIZE);

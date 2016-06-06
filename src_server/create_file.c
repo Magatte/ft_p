@@ -6,9 +6,13 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 04:39:22 by pba               #+#    #+#             */
-/*   Updated: 2016/05/31 05:44:50 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 04:25:20 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** create a file with the rights to read and write into it.
+*/
 
 #include "ft_p.h"
 

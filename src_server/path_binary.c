@@ -6,19 +6,17 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/21 23:10:27 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 04:17:22 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 12:14:51 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
 /*
-** The path_binary function is designed for binary commands such as "ls".
-** First we have to check in every folder of the environment path variable 
-** if we have execution rights on the binary file named by its path.
-** We use for that the function access.
+** By using the access sycall we search for the commands in the path directories
 ** Access returns 0 in case of success and -1 otherwise.
 ** In case of success, we use execv to execute de command.
+** After execution the process is killed.
 */
 
 void			path_binary(t_env *serv_env)

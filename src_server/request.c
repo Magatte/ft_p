@@ -6,11 +6,17 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/05 13:48:57 by pba               #+#    #+#             */
-/*   Updated: 2016/06/03 23:08:18 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 05:03:37 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** concerning the server there's a father socket that accepts connection.
+** for each new client that asks for connection a new son socket is created
+** and a new processus (fork) too for that new client.
+*/
 
 static int					new_client(t_env *serv_env, char *buf)
 {

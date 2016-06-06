@@ -6,14 +6,17 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/18 04:34:41 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 03:42:50 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 06:55:35 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
 /*
-**
+** put_dile_serv waits receives the transfer structure
+** it displays the result message
+** if the result message is OK it begins copying what it receives from the
+** socket into a new file.
 */
 
 static void				write_progress(t_env *serv_env, int r)
@@ -39,9 +42,9 @@ static void				write_progress(t_env *serv_env, int r)
 		putsum = 0;
 }
 
-static void			progress_empty(t_env *serv_env)
+static void				progress_empty(t_env *serv_env)
 {
-	int				i;
+	int					i;
 
 	i = 0;
 	while (i++ < 100)
@@ -64,12 +67,12 @@ static int				read_until_max(int sock, int *buf, int size)
 	return (r);
 }
 
-static void			write_file(t_env *serv_env, int fd, int empty_file)
+static void				write_file(t_env *serv_env, int fd, int empty_file)
 {
-	int				n;
-	int				r;
-	int				size;
-	int				buf[USHRT_MAX];
+	int					n;
+	int					r;
+	int					size;
+	int					buf[USHRT_MAX];
 
 	n = serv_env->transf.size / USHRT_MAX + 1;
 	while (n-- && !empty_file)
@@ -78,7 +81,7 @@ static void			write_file(t_env *serv_env, int fd, int empty_file)
 			size = USHRT_MAX;
 		else
 			size = (serv_env->transf.size > USHRT_MAX) ?
-				 serv_env->transf.size % USHRT_MAX : serv_env->transf.size;
+				serv_env->transf.size % USHRT_MAX : serv_env->transf.size;
 		ft_memset((void *)buf, 0, USHRT_MAX);
 		r = read_until_max(serv_env->cs, buf, size);
 		write_progress(serv_env, r);
@@ -91,10 +94,10 @@ static void			write_file(t_env *serv_env, int fd, int empty_file)
 	ft_putstr_fd("%\n", serv_env->cs);
 }
 
-int					put_file_serv(t_env *serv_env)
+int						put_file_serv(t_env *serv_env)
 {
-	int				fd;
-	int				empty_file;
+	int					fd;
+	int					empty_file;
 
 	if (serv_env->result.client != 1)
 		return (0);
@@ -115,5 +118,5 @@ int					put_file_serv(t_env *serv_env)
 		empty_file = 1;
 	write_file(serv_env, fd, empty_file);
 	close(fd);
-	return(1);
+	return (1);
 }

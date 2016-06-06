@@ -6,11 +6,18 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/21 20:22:33 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 03:31:02 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 22:07:06 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** init_transfer checks if the file can be copied,
+** puts some informations such as the size of the file,
+** a result message, the file name, and sends it to the server.
+** if all succeeds we read the file and send it to the server.
+*/
 
 int					put_file(int sock, char **cmd)
 {

@@ -6,11 +6,17 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 01:16:49 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 03:30:28 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 07:03:30 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** get_file waits for the transfer structure from the server.
+** if the result message is OK the transfer begins :
+** get_file creates a new file and writes into it.
+*/
 
 static void				progress_empty(void)
 {
@@ -30,7 +36,7 @@ static void				write_progress(int r, int size)
 	if (size == 0)
 		return ;
 	getsum += r;
-	percent = getsum * 100; 
+	percent = getsum * 100;
 	percent /= size;
 	ft_putchar_fd('\r', 1);
 	i = 0;
@@ -100,7 +106,7 @@ int						get_file(int sock, char **cmd)
 	if (cmd[1] == NULL || ft_strequ(cmd[1], "$"))
 		return (0);
 	len = ft_strlen(cmd[1]);
-	cmd[1][len -1] = '\0';
+	cmd[1][len - 1] = '\0';
 	if (recv(sock, &transf, sizeof(t_transfer), 0) == -1)
 		return (0);
 	if (!ft_strequ(transf.msg, "[get_file_OK]"))

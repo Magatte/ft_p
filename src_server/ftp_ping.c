@@ -6,13 +6,18 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 00:33:31 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 08:44:06 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 06:55:50 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-void					ftp_ping()
+/*
+** setitimer sets the interval time used to trigger SIGALRM.
+** every 5 seconds SIGALRM is triggered.
+*/
+
+void					ftp_ping(void)
 {
 	struct itimerval	it_val;
 

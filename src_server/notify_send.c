@@ -6,11 +6,16 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/15 23:46:37 by pba               #+#    #+#             */
-/*   Updated: 2016/05/31 05:44:38 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 04:21:41 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** this function sends 256 x 0 to tell our client
+** that the sending operation is finished.
+*/
 
 void	notify_send(int socket, t_result *result)
 {

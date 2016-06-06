@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/24 23:44:40 by pba               #+#    #+#             */
-/*   Updated: 2016/05/10 17:39:24 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 07:05:29 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void		ft_putstr_red_fd(char const *str, int fd)
 {
 	ft_putstr_fd("\033[1;91m", fd);
-	write (fd, str, ft_strlen(str));
+	write(fd, str, ft_strlen(str));
 	ft_putstr_fd("\033[0m", fd);
 }

@@ -6,21 +6,21 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/22 18:24:37 by pba               #+#    #+#             */
-/*   Updated: 2016/05/21 16:49:00 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 11:48:19 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
 /*
-** If we are in server home directory we write "/".
+** "/" is the server root.
+** there's no way to get out this directory.
 */
 
 static char			*pwd_error(t_env *serv_env)
 {
-	dup2(serv_env->cs, 2);
-	ft_putstr_red_fd("Sending did not work.", 2);
-	ft_putchar_fd('\n', 2);
+	ft_putstr_red_fd("Sending did not work.", serv_env->cs);
+	ft_putchar_fd('\n', serv_env->cs);
 	return (NULL);
 }
 

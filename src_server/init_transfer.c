@@ -6,11 +6,18 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 03:23:58 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 02:58:11 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 06:46:54 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** init_transfer checks if the file can be open
+** and retrieves some informations such as the file size,
+** its name and sets a result message
+** puts it in a transfer structure
+*/
 
 static int			check_error(int sock, char **cmd)
 {
@@ -30,7 +37,7 @@ static int			check_error(int sock, char **cmd)
 int					init_transfer(t_transfer *transf,
 						int sock, char **cmd, int *fd)
 {
-	struct stat 	stat;
+	struct stat		stat;
 
 	if ((*fd = check_error(sock, cmd)) == 0)
 	{

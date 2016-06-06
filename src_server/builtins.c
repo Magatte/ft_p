@@ -6,75 +6,17 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:04:35 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 03:23:08 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 07:09:56 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
 /*
-** In ft_builtins() fonction, we check if the written command is builtin
-** (Here "cd", or "pwd")
+** if the written command is a builtin command it's executed
+** and a notification is sent to indicate the end of the sending operation.
+** builtins = pwd, cd, put, get, quit.
 */
-
-static void			handle_quit(t_env *serv_env)
-{
-	if (serv_env->result.client != 1)
-	{
-		serv_env->result.code_return =-1;
-		return ;
-	}
-	ft_putstr_red_fd("client [", 1);
-	ft_putnbr_fd(serv_env->cs, 1);
-	ft_putstr_red_fd("] disconnected\n", 1);
-	serv_env->result.code_return = -2;
-	notify_send(serv_env->cs, &serv_env->result);
-	exit(1);
-}
-
-static void			handle_cd(t_env *serv_env)
-{
-	int				result;
-
-	if ((result = open_dir(args(serv_env->cmd), serv_env)) == -1)
-	{
-		serv_env->result.code_return = -1;
-		ft_putstr_fd("No such file or directory : ", serv_env->cs);
-		ft_putendl_fd(serv_env->cmd[1], serv_env->cs);
-	}
-	else if (result == -2)
-		serv_env->result.code_return = -1;
-	else if (result == 0)
-		serv_env->result.code_return = 1;
-}
-
-static void			handle_pwd(t_env *serv_env)
-{
-	if (get_pwd(serv_env) == NULL)
-		serv_env->result.code_return = -1;
-	else
-		serv_env->result.code_return = 1;
-}
-
-static void			handle_put(t_env *serv_env)
-{
-	if (!serv_env->cmd[1] || put_file_serv(serv_env) == 0)
-	{
-		serv_env->result.code_return = -1;
-		return ;
-	}
-	serv_env->result.code_return = 1;
-}
-
-static void			handle_get(t_env *serv_env)
-{
-	if (!serv_env->cmd[1] || get_file_serv(serv_env) == 0)
-	{
-		serv_env->result.code_return = -1;
-		return ;
-	}
-	serv_env->result.code_return = 1;
-}
 
 static const t_func g_func[] =
 {

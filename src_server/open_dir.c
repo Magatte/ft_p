@@ -6,7 +6,7 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 10:00:55 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 04:26:06 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 11:50:08 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 ** For the open_dir function we made added two strings in our t_env structure :
 ** the first one (pwd) refers to current path
 ** the second one stands for the old_pwd i.e. the previous path
-** First step : we call chdir function 
-** and then compare the current path with the home path.
+** First step : we call chdir function
+** and check if we inside the server home directory.
 ** If it does match pwd and old_pwd are changed.
-** If it doesn't match these ones aren't changed and 
-** we go back to the previous path i.e. pwd. 
+** If it doesn't match these ones aren't changed and
+** an error message is shown.
 */
 
-int			get_to_path(const char *path, char *buf, t_env *serv_env)
+static int		get_to_path(const char *path, char *buf, t_env *serv_env)
 {
-	int		result;
+	int			result;
 
 	result = chdir(path);
 	if (ft_strnequ(serv_env->home, getcwd(buf, PATH_MAX),
@@ -43,9 +43,9 @@ int			get_to_path(const char *path, char *buf, t_env *serv_env)
 	return (result);
 }
 
-int			open_dir(int args, t_env *serv_env)
+int				open_dir(int args, t_env *serv_env)
 {
-	char	buf[PATH_MAX + 1];
+	char		buf[PATH_MAX + 1];
 
 	if (args > 1)
 	{

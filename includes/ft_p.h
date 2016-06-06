@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/15 02:16:36 by pba               #+#    #+#             */
-/*   Updated: 2016/06/03 23:48:55 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 07:12:09 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct			s_env
 {
 	int					cs;
 	char				**env;
-	char 				*home;
+	char				*home;
 	char				*pwd;
 	char				*old_pwd;
 	size_t				home_len;
@@ -75,6 +75,11 @@ char					**get_path(char **env);
 int						check_path(char **env);
 void					request(t_env *serv_env, int sock, char *buf);
 int						builtins(t_env *serv_env);
+void					handle_quit(t_env *serv_env);
+void					handle_cd(t_env *serv_env);
+void					handle_pwd(t_env *serv_env);
+void					handle_put(t_env *serv_env);
+void					handle_get(t_env *serv_env);
 int						binary(t_env *serv_env);
 void					path_binary(t_env *serv_env);
 int						open_dir(int args, t_env *serv_env);

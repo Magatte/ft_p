@@ -6,11 +6,16 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 00:10:39 by pba               #+#    #+#             */
-/*   Updated: 2016/05/28 08:59:04 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 06:52:36 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** 2 signals are handled, SIGALRM to trigger a ping message
+** SIGINT to display an offline message when the server goes off.
+*/
 
 static void				sig_handle(int sig_no)
 {
@@ -31,7 +36,7 @@ static void				sig_handle(int sig_no)
 	}
 }
 
-void					ftp_signal()
+void					ftp_signal(void)
 {
 	int					sig_no;
 

@@ -6,7 +6,7 @@
 /*   By: pba <pba@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/27 17:21:27 by pba               #+#    #+#             */
-/*   Updated: 2015/01/15 08:16:26 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 10:54:23 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char		*ft_strchr(const char *s, int c)
 	while (*s)
 	{
 		if (*s == (char)c)
-			return ((char*)s);
+			return ((char *)s);
 		++s;
 	}
 	if (c == 0)
-		return ((char*)s);
+		return ((char *)s);
 	return (NULL);
 }

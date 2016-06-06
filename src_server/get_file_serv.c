@@ -6,11 +6,19 @@
 /*   By: pba <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 03:13:01 by pba               #+#    #+#             */
-/*   Updated: 2016/06/04 03:39:17 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/04 22:02:10 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
+
+/*
+** init_transfer checks if the file can be copied,
+** puts some informations such as the size of the file,
+** a result message, the file name and sends it to the client.
+** if the result message is OK get_file_serv read from the file
+** and sends it to the client.
+*/
 
 int						get_file_serv(t_env *serv_env)
 {

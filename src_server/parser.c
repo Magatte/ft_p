@@ -6,15 +6,15 @@
 /*   By: pba <pba@42.fr>                            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/10/20 16:20:34 by pba               #+#    #+#             */
-/*   Updated: 2016/05/31 04:58:35 by pba              ###   ########.fr       */
+/*   Updated: 2016/06/05 06:45:40 by pba              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include		"ft_p.h"
+#include "ft_p.h"
 
 /*
 ** We remove th '\n' at the end of the command line.
-** We check if the path does exist for us to get the path.
+** We check if the path does exist, if yes we get the path.
 ** And finally, we execute the command.
 */
 
